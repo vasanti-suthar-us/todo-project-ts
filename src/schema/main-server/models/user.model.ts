@@ -3,7 +3,15 @@ import Sequelize, { CreationOptional, Model } from 'sequelize';
 
 import db from '../../../sequelize-client';
 import { generatePassword } from '../../../utils/auth/password-generation';
-
+export interface UserModelAttributes {
+  id?: string;
+  name: string;
+  email: string;
+  password: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date | null;
+}
 export default class User extends Model {
   declare id: CreationOptional<string>;
   declare name: string | null;

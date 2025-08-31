@@ -1,15 +1,14 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import moment from "moment";
 import db from "../../../sequelize-client";
-import { AuthenticatedRequest } from "../../middlewares/authenticate";
 import { Op } from "sequelize";
 
 const { Task: TaskModel } = db;
 
-export const tasks = async (req: AuthenticatedRequest, res: Response) => {
+export const tasks = async (req: Request, res: Response) => {
   try {
-    const { query: { date, skip, limit } } = req;
-
+    const { query: { date, skip, limit }, user: { id: userId } } = req;
+    
     if (!date || typeof date !== "string") {
       return res.status(400).json({ message: "Date query param is required (YYYY-MM-DD)" });
     }
@@ -19,7 +18,7 @@ export const tasks = async (req: AuthenticatedRequest, res: Response) => {
 
     const tasks = await TaskModel.findAll({
       where: {
-        createdBy: req.user.id,
+        createdBy: userId,
         dueDate: {
           [Op.between]: [startOfDay, endOfDay],
         },
@@ -31,7 +30,7 @@ export const tasks = async (req: AuthenticatedRequest, res: Response) => {
 
     const count = await TaskModel.count({
       where: {
-        createdBy: req.user.id,
+        createdBy: userId,
         dueDate: {
           [Op.between]: [startOfDay, endOfDay],
         },

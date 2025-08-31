@@ -3,14 +3,11 @@ import db from "../../sequelize-client";
 import encryption from "../../utils/auth/encryption";
 import { decodeAccessToken } from "../../utils/auth/jwt";
 import moment from "moment";
+import { UserModelAttributes } from "../../schema/main-server/models/user.model";
 
 const { AccessToken: AccessTokenModel, User: UserModel } = db;
 
-export interface AuthenticatedRequest extends Request {
-  user?: any;
-}
-
-export const authenticate = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers["authorization"];
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -33,7 +30,10 @@ export const authenticate = async (req: AuthenticatedRequest, res: Response, nex
     if (moment().isAfter(session.expiredAt)) {
       return res.status(401).json({ message: "Token expired" });
     }
-    const user = await UserModel.findByPk(session.userId)
+    const user = await UserModel.findByPk(session.userId) as UserModelAttributes;
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
     req.user = user;
     next();
   } catch (error) {

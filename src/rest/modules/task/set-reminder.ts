@@ -1,12 +1,11 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import db from "../../../sequelize-client";
-import { AuthenticatedRequest } from "../../middlewares/authenticate";
 import moment from "moment";
 const { Task: TaskModel, TaskReminder: TaskReminderModel } = db;
 
-export const setReminder = async (req: AuthenticatedRequest, res: Response) => {
+export const setReminder = async (req: Request, res: Response) => {
   try {
-    const { params: { id }, body: { reminderTime } } = req;
+    const { params: { id }, body: { reminderTime }, user: { id: userId } } = req;
 
     if (moment(reminderTime).isBefore(moment().startOf('day'))) {
       return res.status(400).json({ message: "Invalid reminder time" });
@@ -18,7 +17,7 @@ export const setReminder = async (req: AuthenticatedRequest, res: Response) => {
     }
 
     await TaskReminderModel.create({
-      userId: req.user.id,
+      userId: userId!,
       taskId: id,
       reminderTime,
     })

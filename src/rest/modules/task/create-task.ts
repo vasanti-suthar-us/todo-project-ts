@@ -1,10 +1,9 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import db from "../../../sequelize-client";
-import { AuthenticatedRequest } from "../../middlewares/authenticate";
 import moment from "moment";
 const { Task: TaskModel } = db;
 
-export const createTask = async (req: AuthenticatedRequest, res: Response) => {
+export const createTask = async (req: Request, res: Response) => {
   try {
     const { body: { title, description, dueDate } } = req;
 
@@ -16,7 +15,7 @@ export const createTask = async (req: AuthenticatedRequest, res: Response) => {
       title,
       description,
       dueDate,
-      createdBy: req.user.id
+      createdBy: req.user!.id!
     });
 
     return res.status(201).json({

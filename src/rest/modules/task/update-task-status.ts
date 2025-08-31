@@ -1,12 +1,8 @@
-import { Response } from "express";
-import moment from "moment";
+import { Response, Request } from "express";
 import db from "../../../sequelize-client";
-import { AuthenticatedRequest } from "../../middlewares/authenticate";
-import { Op } from "sequelize";
-
 const { Task: TaskModel } = db;
 
-export const updateTaskStatus = async (req: AuthenticatedRequest, res: Response) => {
+export const updateTaskStatus = async (req: Request, res: Response) => {
   try {
     const { body: { isCompleted }, params: { id } } = req;
 
