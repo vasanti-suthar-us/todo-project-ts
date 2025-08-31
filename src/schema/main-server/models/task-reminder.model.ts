@@ -7,7 +7,6 @@ export interface TaskReminderModelAttributes {
   userId: string;
   reminderTime: Date;
   sentOn: Date | null;
-  errorLog: object | null;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date | null;
@@ -19,7 +18,6 @@ export default class TaskReminder extends Model<TaskReminderModelAttributes> {
   declare userId: string;
   declare reminderTime: Date;
   declare sentOn: CreationOptional<Date | null>;
-  declare errorLog: CreationOptional<object | null>;
   declare createdAt?: CreationOptional<Date>;
   declare updatedAt?: CreationOptional<Date>;
   declare deletedAt?: CreationOptional<Date | null>;
@@ -66,10 +64,6 @@ export const taskReminder = (
         type: DataTypes.DATE,
         allowNull: true,
       },
-      errorLog: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-      }
     },
     {
       sequelize,

@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { Op } from 'sequelize';
 import db from '../../../sequelize-client';
 import { decodeAccessToken, generateAccessToken } from '../../../utils/auth/jwt';
-import config from '../../../config/config';
 import moment from 'moment';
 const { User: UserModel, AccessToken: AccessTokenModel } = db;
 
