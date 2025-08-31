@@ -2,7 +2,7 @@
 import Sequelize, { CreationOptional, Model } from 'sequelize';
 
 import db from '../../../sequelize-client';
-import generatePassword from '../../../utils/auth/password-generation';
+import { generatePassword } from '../../../utils/auth/password-generation';
 
 export default class User extends Model {
   declare id: CreationOptional<string>;
@@ -55,7 +55,10 @@ export const user = (
       paranoid: true,
       modelName: 'User',
       tableName: 'users',
-      indexes: [],
+      indexes: [
+        { fields: ['email'] },
+        { fields: ['password'] },
+      ],
     }
   );
 

@@ -19,4 +19,9 @@ export default {
     RESET_TOKEN_LIFE_TIME: Number(process.env.JWT_RESET_TOKEN_LIFE_TIME) || (1 as number),
     VERIFICATION_TOKEN_LIFE_TIME: process.env.JWT_VERIFICATION_TOKEN_LIFE_TIME || ('1d' as string),
   },
+  EMAIL_PROVIDER: {
+    USER: process.env.EMAIL_USER,
+    PASSWORD: process.env.EMAIL_PASSWORD,
+  },
+  DAILY_TASK_REMINDER_CRON_EXPRESSION: process.env.DAILY_TASK_REMINDER_CRON_EXPRESSION,
 };

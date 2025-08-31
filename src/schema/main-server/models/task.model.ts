@@ -7,7 +7,7 @@ export interface TaskModelAttributes {
   description: string;
   dueDate: Date;
   createdBy: string;
-  isCompleted: boolean;
+  isCompleted?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date | null;
@@ -19,7 +19,7 @@ export default class Task extends Model<TaskModelAttributes> {
   declare description: string;
   declare dueDate: Date;
   declare createdBy: string;
-  declare isCompleted: boolean;
+  declare isCompleted?: boolean;
   declare createdAt?: CreationOptional<Date>;
   declare updatedAt?: CreationOptional<Date>;
   declare deletedAt?: CreationOptional<Date | null>;
@@ -56,7 +56,6 @@ export const task = (
       },
       isCompleted: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
         defaultValue: false,
       }
     },

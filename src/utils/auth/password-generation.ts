@@ -14,4 +14,19 @@ const generatePassword = (passwordString: string): string => {
   }
 }
 
-export default generatePassword;
+const comparePassword = (password: string, hashedPassword: string): boolean => {
+  try {
+    const salt = config.ENCRYPTION.PASSWORD_SALT;
+    const iterations = config.ENCRYPTION.PASSWORD_ITERATIONS;
+
+    const encryptedPassword = crypto
+      .pbkdf2Sync(password, salt, iterations, 64, "sha512")
+      .toString("hex");
+    return encryptedPassword === hashedPassword;
+  } catch (error) {
+    console.log(`Error from comparePassword => ${error}`, {});
+    throw error;
+  }
+}
+
+export { generatePassword, comparePassword };
