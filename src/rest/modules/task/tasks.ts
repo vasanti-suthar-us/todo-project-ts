@@ -8,7 +8,7 @@ const { Task: TaskModel } = db;
 
 export const tasks = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { date, skip, limit } = req.query;
+    const { query: { date, skip, limit } } = req;
 
     if (!date || typeof date !== "string") {
       return res.status(400).json({ message: "Date query param is required (YYYY-MM-DD)" });
