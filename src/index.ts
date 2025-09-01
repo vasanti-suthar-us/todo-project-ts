@@ -23,7 +23,7 @@ const initServer = async () => {
 
     httpServer.listen(config.PORT, () => {
       console.log(
-        `🚀 Server ready at http://localhost:${config.PORT}/${config.API_PREFIX_ROUTE}`
+        `Server ready at http://localhost:${config.PORT}/${config.API_PREFIX_ROUTE}`
       );
     });
     return true;
